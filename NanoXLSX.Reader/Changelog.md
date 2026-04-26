@@ -1,5 +1,15 @@
 # Change Log - NanoXLSX.Reader
 
+## v3.0.1
+
+---
+Release Date: **(24.04.2026)** <sup>(DMY)</sup>
+
+- Fixed internal async handling of the workbook reader, to avoid deadlocks in WinForms/WPF projects, when async is not used (regression).
+- Fixed order of worksheets when manually changed
+- Added filename to workbook when reading from file
+
+
 ## v3.0.0
 
 ---

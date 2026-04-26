@@ -105,7 +105,7 @@ namespace NanoXLSX.Internal.Readers
             try
             {
                 WorksheetDefinition worksheetDefinition = Workbook.AuxiliaryData.GetData<WorksheetDefinition>(PlugInUUID.WorkbookReader, PlugInUUID.WorksheetDefinitionEntity, CurrentWorksheetID);
-                Worksheet worksheet = new Worksheet(worksheetDefinition.WorksheetName, CurrentWorksheetID, Workbook)
+                Worksheet worksheet = new Worksheet(worksheetDefinition.WorksheetName, worksheetDefinition.SheetID, Workbook)
                 {
                     Hidden = worksheetDefinition.Hidden
                 };
@@ -146,7 +146,7 @@ namespace NanoXLSX.Internal.Readers
         {
             Workbook.AddWorksheet(worksheet);
             int selectedWorksheetId = Workbook.AuxiliaryData.GetData<int>(PlugInUUID.WorkbookReader, PlugInUUID.SelectedWorksheetEntity);
-            if (selectedWorksheetId + 1 == CurrentWorksheetID) // selectedWorksheetId is 0-based
+            if (selectedWorksheetId == CurrentWorksheetID)
             {
                 Workbook.SetSelectedWorksheet(worksheet);
             }
