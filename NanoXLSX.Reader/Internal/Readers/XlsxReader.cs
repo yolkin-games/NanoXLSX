@@ -77,7 +77,7 @@ namespace NanoXLSX.Internal.Readers
             {
                 using (memoryStream = new MemoryStream())
                 {
-                    ReadInternal().GetAwaiter().GetResult();
+                    Task.Run(() => ReadInternal()).GetAwaiter().GetResult();
                 }
             }
             catch (NotSupportedContentException)
@@ -224,9 +224,10 @@ namespace NanoXLSX.Internal.Readers
 
             IWorksheetReader worksheetReader = PlugInLoader.GetPlugIn<IWorksheetReader>(PlugInUUID.WorksheetReader, new WorksheetReader());
             worksheetReader.SharedStrings = sharedStringsReader.SharedStrings;
-            List<WorksheetDefinition> workshetDefinitions = wb.AuxiliaryData.GetDataList<WorksheetDefinition>(PlugInUUID.WorkbookReader, PlugInUUID.WorksheetDefinitionEntity);
             List<Relationship> relationshipDefinitions = wb.AuxiliaryData.GetDataList<Relationship>(PlugInUUID.RelationshipReader, PlugInUUID.RelationshipEntity);
-            foreach (WorksheetDefinition definition in workshetDefinitions)
+            int worksheetVisualIndex = 0;
+            WorksheetDefinition definition;
+            while ((definition = wb.AuxiliaryData.GetData<WorksheetDefinition>(PlugInUUID.WorkbookReader, PlugInUUID.WorksheetDefinitionEntity, worksheetVisualIndex)) != null)
             {
                 Relationship relationship = relationshipDefinitions.SingleOrDefault(r => r.RID == definition.RelId);
                 if (relationship == null)
@@ -235,8 +236,9 @@ namespace NanoXLSX.Internal.Readers
                 }
                 ms = GetEntryStream(relationship.Target, zf);
                 worksheetReader.Init(ms, wb, readerOptions, ReaderPlugInHandler.HandleInlineQueuePlugins);
-                worksheetReader.CurrentWorksheetID = definition.SheetID;
+                worksheetReader.CurrentWorksheetID = worksheetVisualIndex;
                 worksheetReader.Execute();
+                worksheetVisualIndex++;
             }
             if (wb.Worksheets.Count == 0)
             {

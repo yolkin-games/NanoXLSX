@@ -1,5 +1,17 @@
 # Change Log
 
+## v3.0.1
+
+---
+
+Release Date: **(24.04.2026)** <sup>(DMY)</sup>
+
+- Package: **NanoXLSX.Reader**
+  * Fixed internal async handling of the workbook reader, to avoid deadlocks in WinForms/WPF projects, when async is not used (regression).
+  * Fixed order of worksheets when manually changed
+  * Added filename to workbook when reading from file
+
+
 ## v3.0.0
 
 ---
@@ -246,7 +258,7 @@ Release Date: **12.01.2025** <sup>(DMY)</sup>
 Release Date: **24.11.2024** <sup>(DMY)</sup>
 
 - Fixed a bug of the column address (letter) resolution. Column letters above 'Z' were resolved incorrectly
-- Changed async handing of the workbook reader, to avoid deadlocks. Change provided by Jarren Long
+- Changed async handling of the workbook reader, to avoid deadlocks. Change provided by Jarren Long
 - Simplified project structure (unified .Net 4.x and Standard). Change provided by Jarren Long
 - Added tests for column address resolution
 

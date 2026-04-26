@@ -175,6 +175,7 @@ namespace NanoXLSX.Internal.Readers
         /// <param name="nodes">Sheet nodes to check</param>
         private void GetWorksheetInformation(XmlNodeList nodes)
         {
+            int visibleWorksheetOrder = 0;
             foreach (XmlNode node in nodes)
             {
                 if (node.LocalName.Equals("sheet", StringComparison.OrdinalIgnoreCase))
@@ -194,7 +195,8 @@ namespace NanoXLSX.Internal.Readers
                         {
                             Hidden = hidden
                         };
-                        Workbook.AuxiliaryData.SetData(PlugInUUID.WorkbookReader, PlugInUUID.WorksheetDefinitionEntity, id, definition);
+                        Workbook.AuxiliaryData.SetData(PlugInUUID.WorkbookReader, PlugInUUID.WorksheetDefinitionEntity, visibleWorksheetOrder, definition);
+                        visibleWorksheetOrder++;
                     }
                     catch (Exception e)
                     {
