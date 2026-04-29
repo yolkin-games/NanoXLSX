@@ -12,6 +12,7 @@ using NanoXLSX.Interfaces;
 using NanoXLSX.Interfaces.Reader;
 using NanoXLSX.Registry;
 using NanoXLSX.Registry.Attributes;
+using NanoXLSX.Utils.Xml;
 
 namespace NanoXLSX.Internal.Readers
 {
@@ -75,35 +76,33 @@ namespace NanoXLSX.Internal.Readers
                 using (stream) // Close after processing
                 {
                     Metadata metadata = Workbook.WorkbookMetadata;
-
-                    XmlDocument xr = new XmlDocument
+                    using (XmlReader reader = XmlReader.Create(stream, XmlStreamUtils.CreateSettings()))
                     {
-                        XmlResolver = null
-                    };
-                    using (XmlReader reader = XmlReader.Create(stream, new XmlReaderSettings() { XmlResolver = null }))
-                    {
-                        xr.Load(reader);
-                        foreach (XmlNode node in xr.DocumentElement.ChildNodes)
+                        while (reader.Read())
                         {
-                            if (node.LocalName.Equals("Application", StringComparison.OrdinalIgnoreCase))
+                            if (reader.NodeType != XmlNodeType.Element)
                             {
-                                metadata.Application = node.InnerText;
+                                continue;
                             }
-                            else if (node.LocalName.Equals("AppVersion", StringComparison.OrdinalIgnoreCase))
+                            if (XmlStreamUtils.IsElement(reader, "Application"))
                             {
-                                metadata.ApplicationVersion = node.InnerText;
+                                metadata.Application = XmlStreamUtils.ReadElementText(reader);
                             }
-                            else if (node.LocalName.Equals("Company", StringComparison.OrdinalIgnoreCase))
+                            else if (XmlStreamUtils.IsElement(reader, "AppVersion"))
                             {
-                                metadata.Company = node.InnerText;
+                                metadata.ApplicationVersion = XmlStreamUtils.ReadElementText(reader);
                             }
-                            else if (node.LocalName.Equals("Manager", StringComparison.OrdinalIgnoreCase))
+                            else if (XmlStreamUtils.IsElement(reader, "Company"))
                             {
-                                metadata.Manager = node.InnerText;
+                                metadata.Company = XmlStreamUtils.ReadElementText(reader);
                             }
-                            else if (node.LocalName.Equals("HyperlinkBase", StringComparison.OrdinalIgnoreCase))
+                            else if (XmlStreamUtils.IsElement(reader, "Manager"))
                             {
-                                metadata.HyperlinkBase = node.InnerText;
+                                metadata.Manager = XmlStreamUtils.ReadElementText(reader);
+                            }
+                            else if (XmlStreamUtils.IsElement(reader, "HyperlinkBase"))
+                            {
+                                metadata.HyperlinkBase = XmlStreamUtils.ReadElementText(reader);
                             }
                         }
                         InlinePluginHandler?.Invoke(stream, Workbook, PlugInUUID.MetadataAppInlineReader, Options, null);

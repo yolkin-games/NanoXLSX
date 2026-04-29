@@ -13,6 +13,7 @@ using NanoXLSX.Interfaces.Reader;
 using NanoXLSX.Registry;
 using NanoXLSX.Registry.Attributes;
 using NanoXLSX.Utils;
+using NanoXLSX.Utils.Xml;
 using IOException = NanoXLSX.Exceptions.IOException;
 
 namespace NanoXLSX.Internal.Readers
@@ -77,22 +78,19 @@ namespace NanoXLSX.Internal.Readers
             if (stream == null) return;
             try
             {
-                XmlDocument xr;
                 using (stream) // Close after processing
                 {
-                    xr = new XmlDocument
+                    using (XmlReader reader = XmlReader.Create(stream, XmlStreamUtils.CreateSettings()))
                     {
-                        XmlResolver = null
-                    };
-                    using (XmlReader reader = XmlReader.Create(stream, new XmlReaderSettings() { XmlResolver = null }))
-                    {
-                        xr.Load(reader);
-                        XmlNodeList relationships = xr.GetElementsByTagName("Relationship");
-                        foreach (XmlNode relationship in relationships)
+                        while (reader.Read())
                         {
-                            string id = ReaderUtils.GetAttribute(relationship, "Id");
-                            string type = ReaderUtils.GetAttribute(relationship, "Type");
-                            string target = ReaderUtils.GetAttribute(relationship, "Target");
+                            if (!XmlStreamUtils.IsElement(reader, "Relationship"))
+                            {
+                                continue;
+                            }
+                            string id = reader.GetAttribute("Id");
+                            string type = reader.GetAttribute("Type");
+                            string target = reader.GetAttribute("Target");
                             if (ParserUtils.StartsWith(target, "/"))
                             {
                                 target = target.TrimStart('/');
