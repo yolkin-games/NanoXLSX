@@ -30,7 +30,7 @@ namespace NanoXLSX.Internal.Readers
         #region privateFields
         private bool capturePhoneticCharacters;
         private readonly List<PhoneticInfo> phoneticsInfo;
-        private MemoryStream stream;
+        private Stream stream;
         #endregion
 
         #region properties
@@ -46,7 +46,7 @@ namespace NanoXLSX.Internal.Readers
         /// <summary>
         /// Workbook reference where read data is stored (should not be null)
         /// </summary>
-        public Workbook Workbook { get ; set; }
+        public Workbook Workbook { get; set; }
         /// <summary>
         /// Reader options
         /// </summary>
@@ -54,7 +54,7 @@ namespace NanoXLSX.Internal.Readers
         /// <summary>
         /// Reference to the <see cref="ReaderPlugInHandler"/>, to be used for post operations in the <see cref="Execute"/> method
         /// </summary>
-        public Action<MemoryStream, Workbook, string, IOptions, int?> InlinePluginHandler { get; set; }
+        public Action<Stream, Workbook, string, IOptions, int?> InlinePluginHandler { get; set; }
         #endregion
 
         #region constructors
@@ -76,7 +76,7 @@ namespace NanoXLSX.Internal.Readers
         /// <param name="workbook">Workbook reference</param>
         /// <param name="readerOptions">Reader options</param>
         /// <param name="inlinePluginHandler">Reference to the a handler action, to be used for post operations in reader methods</param>
-        public void Init(MemoryStream stream, Workbook workbook, IOptions readerOptions, Action<MemoryStream, Workbook, string, IOptions, int?> inlinePluginHandler)
+        public void Init(Stream stream, Workbook workbook, IOptions readerOptions, Action<Stream, Workbook, string, IOptions, int?> inlinePluginHandler)
         {
             this.stream = stream;
             this.Workbook = workbook;

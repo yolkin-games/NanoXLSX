@@ -30,7 +30,7 @@ namespace NanoXLSX.Internal.Readers
     public class WorksheetReader : IWorksheetReader
     {
         #region privateFields
-        private MemoryStream stream;
+        private Stream stream;
         private HashSet<string> dateStyles;
         private HashSet<string> timeStyles;
         private Dictionary<string, Style> resolvedStyles;
@@ -51,7 +51,7 @@ namespace NanoXLSX.Internal.Readers
         /// <summary>
         /// Reference to the <see cref="ReaderPlugInHandler"/>, to be used for post operations in the <see cref="Execute"/> method
         /// </summary>
-        public Action<MemoryStream, Workbook, string, IOptions, int?> InlinePluginHandler { get; set; }
+        public Action<Stream, Workbook, string, IOptions, int?> InlinePluginHandler { get; set; }
         /// <summary>
         /// Gets or sets the (r)ID of the current worksheet
         /// </summary>
@@ -80,7 +80,7 @@ namespace NanoXLSX.Internal.Readers
         /// <param name="workbook">Workbook reference</param>
         /// <param name="readerOptions">Reader options</param>
         /// <param name="inlinePluginHandler">Reference to the a handler action, to be used for post operations in reader methods</param>
-        public void Init(MemoryStream stream, Workbook workbook, IOptions readerOptions, Action<MemoryStream, Workbook, string, IOptions, int?> inlinePluginHandler)
+        public void Init(Stream stream, Workbook workbook, IOptions readerOptions, Action<Stream, Workbook, string, IOptions, int?> inlinePluginHandler)
         {
             this.stream = stream;
             this.Workbook = workbook;
@@ -879,7 +879,7 @@ namespace NanoXLSX.Internal.Readers
             {
                 return data;
             }
-            if (readerOptions.GlobalEnforcingType ==  ReaderOptions.GlobalType.AllNumbersToDouble)
+            if (readerOptions.GlobalEnforcingType == ReaderOptions.GlobalType.AllNumbersToDouble)
             {
                 object tempDouble = ConvertToDouble(data, readerOptions);
                 if (tempDouble != null)
@@ -1265,7 +1265,7 @@ namespace NanoXLSX.Internal.Readers
         /// <param name="readerOptions">Reader options</param>
         /// <returns>TimeSpan instance or null if not possible to parse</returns>
         private TimeSpan? TryParseTime(string raw, ReaderOptions readerOptions)
-        {   
+        {
             TimeSpan timeSpan;
             bool isTimeSpan;
             if (readerOptions == null || string.IsNullOrEmpty(readerOptions.TimeSpanFormat) || readerOptions.TemporalCultureInfo == null)

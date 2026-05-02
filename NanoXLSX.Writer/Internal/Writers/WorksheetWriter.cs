@@ -343,11 +343,7 @@ namespace NanoXLSX.Internal.Writers
         /// <returns>Sorted list of dynamic rows that are either defined by cells or row widths / hidden states. The list is sorted by row numbers (zero-based)</returns>
         private static List<DynamicRow> GetSortedSheetData(Worksheet worksheet)
         {
-            List<Cell> temp = new List<Cell>();
-            foreach (KeyValuePair<string, Cell> item in worksheet.Cells)
-            {
-                temp.Add(item.Value);
-            }
+            List<Cell> temp = new List<Cell>(worksheet.CellValues);
             temp.Sort();
             DynamicRow row = new DynamicRow(); ;
             Dictionary<int, DynamicRow> rows = new Dictionary<int, DynamicRow>();
