@@ -545,7 +545,7 @@ namespace NanoXLSX
         public Worksheet()
         {
             CurrentCellDirection = CellDirection.ColumnToColumn;
-            cells = new Dictionary<CellKey, Cell>();
+            cells = new Dictionary<CellKey, Cell>(1000); // Let's assume a default of 1000 cells per worksheet, which is a good starting point for most use cases. This can be adjusted if needed, but it will save some resizing operations on the dictionary in the average case
             cellsStringView = new StringKeyedCellView(cells);
             currentRowNumber = 0;
             currentColumnNumber = 0;

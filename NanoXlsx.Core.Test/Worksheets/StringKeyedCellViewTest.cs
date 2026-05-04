@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using NanoXLSX.Internal;
 using Xunit;
 
@@ -84,6 +85,20 @@ namespace NanoXLSX.Test.Core.InternalTest
             bool found = view.TryGetValue("Z99", out Cell cell);
             Assert.False(found);
             Assert.Null(cell);
+        }
+
+        [Fact(DisplayName = "IEnumerable.GetEnumerator: non-generic enumerator yields all entries")]
+        public void IEnumerable_GetEnumerator_YieldsAllEntries()
+        {
+            StringKeyedCellView view = BuildView((2, 4, "hello"), (0, 0, "world"));
+            IEnumerable enumerable = view;
+            int count = 0;
+            foreach (object item in enumerable)
+            {
+                Assert.IsType<KeyValuePair<string, Cell>>(item);
+                count++;
+            }
+            Assert.Equal(2, count);
         }
 
         private static StringKeyedCellView BuildView(params (int col, int row, object value)[] entries)

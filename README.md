@@ -72,6 +72,9 @@ There are some limitations:
 * No support of other objects than spreadsheet data at the moment
 * Due to the potential high complexity, custom number format codes are currently not automatically escaped on writing or un-escaped on reading
 
+## :robot: For AI Agents
+For AI agents and LLM tooling, a machine-readable [`llms.txt`](./llms.txt) is available.
+
 ## :gear: Requirements
 
 NanoXLSX is originally based on PicoXLSX. However, NanoXLSX is now in the development lead, whereas PicoXLSX is a subset of it. The library is currently on compatibility level with .NET version 4.5 and .NET Standard 2.0. Newer versions should of course work as well. Older versions, like .NET 3.5 have only limited support, since newer language features were used.

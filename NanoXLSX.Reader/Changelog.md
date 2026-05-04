@@ -1,5 +1,13 @@
 # Change Log - NanoXLSX.Reader
 
+## v3.1.0
+
+---
+Release Date: **(04.05.2026)** <sup>(DMY)</sup>
+
+- Version bump of NanoXLSX.Core to v3.1.0
+- Improved reader performance (memory consumption, load time). Reading a workbook should now be up to 3 times faster.
+
 ## v3.0.1
 
 ---

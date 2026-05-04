@@ -1,4 +1,4 @@
-/*
+﻿/*
  * NanoXLSX is a small .NET library to generate and read XLSX (Microsoft Excel 2007 or newer) files in an easy and native way
  * Copyright Raphael Stoeckli © 2026
  * This library is licensed under the MIT License.
@@ -12,7 +12,7 @@ using System.Collections.Generic;
 namespace NanoXLSX.Internal
 {
     /// <summary>
-    /// Non-materialising read-only view over the internal cell dictionary that exposes cells keyed by
+    /// Non-materializing read-only view over the internal cell dictionary that exposes cells keyed by
     /// their rendered address string (e.g. "A1"). All read paths delegate directly to the backing
     /// dictionary, translating keys on-the-fly without allocating a snapshot copy.
     /// Mutation is intentionally unsupported — use <c>Worksheet.AddCell</c> / <c>Worksheet.RemoveCell</c>.

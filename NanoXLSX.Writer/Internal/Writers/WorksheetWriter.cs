@@ -129,6 +129,14 @@ namespace NanoXLSX.Internal.Writers
         }
 
         /// <summary>
+        /// Releases the XML element from memory. Should be called after the XML document has been generated and the element is not needed anymore.
+        /// </summary>
+        void IWorksheetWriter.ReleaseXmlElement()
+        {
+            this.worksheet = null;
+        }
+
+        /// <summary>
         /// Method to create merged cell information in one XmlElement
         /// </summary>
         /// <param name="worksheet">Corresponding worksheet</param>
