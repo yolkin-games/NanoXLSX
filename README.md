@@ -152,7 +152,7 @@ dotnet add package NanoXLSX
 
 See the full **API-Documentation** at: [https://rabanti-github.github.io/NanoXLSX/](https://rabanti-github.github.io/NanoXLSX/).
 
-The **[Demo Project](https://github.com/rabanti-github/NanoXLSX.Demo)** contains 27 examples covering various use cases. The demo project is maintained in a separate repository.
+The **[Demo Project](https://github.com/rabanti-github/NanoXLSX.Demo)** contains 28 examples covering various use cases. The demo project is maintained in a separate repository.
 See the section **[NanoXLSX](https://github.com/rabanti-github/NanoXLSX.Demo/tree/main/NanoXLSX)** for the specific examples related to NanoXLSX.
 
 See also: [Getting started in the Wiki](https://github.com/rabanti-github/NanoXLSX/wiki/Getting-started)
