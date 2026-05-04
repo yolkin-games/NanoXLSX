@@ -6,6 +6,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.Text;
 using Docs.IndexGenerator.Models;
 
@@ -38,8 +39,15 @@ namespace Docs.IndexGenerator.Generation
             sb.Append("- [").Append(meta.PackageName).Append("](").Append(metaUrl).Append("): ")
               .AppendLine(meta.Description ?? string.Empty);
 
-            foreach (var e in plugins.Entries)
+            List<DocEntry> nonBundledEntries = new List<DocEntry>();
+
+            foreach (DocEntry e in plugins.Entries)
             {
+                if (!e.Bundled)
+                {
+                    nonBundledEntries.Add(e);
+                    continue;
+                }
                 string url = !string.IsNullOrEmpty(e.NuGetUrl)
                     ? e.NuGetUrl
                     : (e.Repository ?? string.Empty);
@@ -47,6 +55,22 @@ namespace Docs.IndexGenerator.Generation
                 string bundledTag = e.Bundled ? " (bundled)" : string.Empty;
                 sb.Append("- [").Append(e.Id).Append("](").Append(url).Append("): ")
                   .Append(description).AppendLine(bundledTag);
+            }
+
+            if (nonBundledEntries.Count > 0)
+            {
+                sb.AppendLine();
+                sb.AppendLine("Other available packages (not bundled in meta package):");
+                sb.AppendLine();
+                foreach (DocEntry e in nonBundledEntries)
+                {
+                    string url = !string.IsNullOrEmpty(e.NuGetUrl)
+                        ? e.NuGetUrl
+                        : (e.Repository ?? string.Empty);
+                    string description = e.Description ?? string.Empty;
+                    sb.Append("- [").Append(e.Id).Append("](").Append(url).Append("): ")
+                      .Append(description).AppendLine();
+                }
             }
 
             sb.AppendLine();
